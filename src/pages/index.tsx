@@ -1,13 +1,21 @@
+import 'keen-slider/keen-slider.min.css'
+import { useKeenSlider } from 'keen-slider/react'
 import Image from 'next/future/image'
+import camiseta1 from '../assets/camisetas/1.png'
 import { HomeContainer, Product } from '../styles/pages/home'
 
-import camiseta1 from '../assets/camisetas/1.png'
-
 export default function Home() {
+  const [sliderRef] = useKeenSlider<HTMLDivElement>({
+    slides: {
+      perView: 3,
+      spacing: 48,
+    },
+  })
+
   return (
-    <HomeContainer>
-      {[...Array(2)].map((_, index) => (
-        <Product key={index}>
+    <HomeContainer ref={sliderRef} className="keen-slider">
+      {[...Array(10)].map((_, index) => (
+        <Product key={index} className="keen-slider__slide">
           <Image src={camiseta1} alt="" width={520} height={480} />
           <footer>
             <strong>Camiseta X</strong>
