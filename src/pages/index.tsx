@@ -1,6 +1,6 @@
 import 'keen-slider/keen-slider.min.css'
 import { useKeenSlider } from 'keen-slider/react'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import camiseta1 from '../assets/camisetas/1.png'
 import { HomeContainer, Product } from '../styles/pages/home'
 
