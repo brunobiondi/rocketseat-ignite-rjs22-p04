@@ -7,6 +7,8 @@ import { GetStaticProps } from 'next'
 import { stripe } from '../../lib/stripe'
 import Stripe from 'stripe'
 import Image from 'next/image'
+import axios from 'axios'
+import { useState } from 'react'
 
 interface ProductProps {
   product: {
@@ -15,6 +17,7 @@ interface ProductProps {
     description: string
     imageUrl: string
     price: string
+    defaultPriceId: string
   }
 }
 
@@ -48,6 +51,7 @@ export const getStaticProps: GetStaticProps<
           style: 'currency',
           currency: 'BRL',
         }).format(price.unit_amount / 100),
+        defaultPriceId: price.id,
       },
     },
     revalidate: 60 * 60, // 1 hour
@@ -55,6 +59,22 @@ export const getStaticProps: GetStaticProps<
 }
 
 export default function Product({ product }: ProductProps) {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleBuyProduct = async () => {
+    try {
+      setIsLoading(true)
+      const response = await axios.post('/api/checkout', {
+        priceId: product.defaultPriceId,
+      })
+      const { checkoutUrl } = response.data
+      window.location.href = checkoutUrl
+    } catch (e) {
+      setIsLoading(false)
+      alert('Falha ao redirecionar para o checkout')
+    }
+  }
+
   return (
     <ProductContainer>
       <ImageContainer>
@@ -64,7 +84,9 @@ export default function Product({ product }: ProductProps) {
         <h1>{product.name}</h1>
         <span>{product.price}</span>
         <p>{product.description}</p>
-        <button>Comprar agora</button>
+        <button onClick={handleBuyProduct} disabled={isLoading}>
+          Comprar agora
+        </button>
       </ProductDetails>
     </ProductContainer>
   )
