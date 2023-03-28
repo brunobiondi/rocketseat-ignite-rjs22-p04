@@ -9,7 +9,7 @@ export default function Success() {
 
       <p>
         Uhuul <strong>Bruno Biondi</strong>, sua <strong>Camiseta</strong> já
-        está a caminho da sua casa. está a caminho
+        está a caminho da sua casa.
       </p>
 
       <Link href="/">Voltar ao catálogo</Link>
