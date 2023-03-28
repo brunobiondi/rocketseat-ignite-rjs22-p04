@@ -15,7 +15,7 @@ export default async function checkout(
     return res.status(400).end('Missing Price')
   }
 
-  const successUrl = `${process.env.NEXT_URL}/success`
+  const successUrl = `${process.env.NEXT_URL}/success?session_id={CHECKOUT_SESSION_ID}`
   const cancelUrl = `${process.env.NEXT_URL}/`
 
   const checkoutSession = await stripe.checkout.sessions.create({
